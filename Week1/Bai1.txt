@@ -1,0 +1,78 @@
+function reformatData() {
+  // Lấy trang sheet cần chuyển đổi
+  var sourceSheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  
+  // Lấy dữ liệu từ Sheet
+  var data = sourceSheet.getDataRange().getValues();
+
+  // Tạo Sheet mới để lưu trữ dữ liệu đã chuyển đổi
+  var destinationSheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet("ReFormatSheet");
+
+  //Thêm tiêu đề cho Sheet mới tạo
+  var tieuDeCot = ['STT', 'MSSV', 'Họ và Tên', 'Email', 'Số Điện Thoại', 'Tên đề tài'];
+  destinationSheet.getRange(1, 1, 1, tieuDeCot.length).setValues([tieuDeCot]).setFontWeight("bold").setHorizontalAlignment("center").setVerticalAlignment("middle");
+
+  var currentGroup = 1;
+  var row = 2;  // Bắt đầu từ dòng thứ 2 để tránh viết đè dòng tiêu đề
+
+  // Xử lý dữ liệu và chuyển đổi
+  for (var i = 1; i < data.length; i++) { // Bắt đầu từ dòng đầu tiên của bảng tính
+    var person1id    = data[i][1];
+    var person1Name  = data[i][2];
+    var person1Mail  = data[i][3];
+    var person1Phone = data[i][4];
+
+    var person2id    = data[i][6];
+    var person2Name  = data[i][7];
+    var person2Mail  = data[i][8];
+    var person2Phone = data[i][9];
+
+    var person3id    = data[i][11];
+    var person3Name  = data[i][12];
+    var person3Mail  = data[i][13];
+    var person3Phone = data[i][14];
+
+    var person4id    = data[i][16];
+    var person4Name  = data[i][17];
+    var person4Mail  = data[i][18];
+    var person4Phone = data[i][19];
+
+    var project      = data[i][21];
+
+    // Ghi dữ liệu vào sheet mới với số nhóm tự động tăng dần
+    destinationSheet.getRange(row, 1, 4, 1).mergeVertically().setFontWeight("bold").setHorizontalAlignment("center").setVerticalAlignment("middle").setFontSize(25).setValue(currentGroup).setBackground("#FFFF66").setBorder(true, true, true, true, false, false);
+    destinationSheet.getRange(row, 2).setValue(person1id).setBorder(true, false, false, false, false, false);
+    destinationSheet.getRange(row, 3).setValue(person1Name).setBorder(true, false, false, false, false, false);
+    destinationSheet.getRange(row, 4).setValue(person1Mail).setBorder(true, false, false, false, false, false);
+    destinationSheet.getRange(row, 5).setNumberFormat("@").setBorder(true, false, false, false, false, false);
+    destinationSheet.getRange(row, 5).setValue(person1Phone).setBorder(true, false, false, false, false, false);
+    destinationSheet.getRange(row, 6, 4, 1).setValue(project).mergeVertically().setFontWeight("bold").setHorizontalAlignment("center").setVerticalAlignment("middle").setBackground("#FFFF66").setBorder(true, true, true, true, false, false);
+    row++;
+
+    destinationSheet.getRange(row, 2).setValue(person2id);
+    destinationSheet.getRange(row, 3).setValue(person2Name);
+    destinationSheet.getRange(row, 4).setValue(person2Mail);
+    destinationSheet.getRange(row, 5).setNumberFormat("@");
+    destinationSheet.getRange(row, 5).setValue(person2Phone);
+    row++;
+
+    destinationSheet.getRange(row, 2).setValue(person3id);
+    destinationSheet.getRange(row, 3).setValue(person3Name);
+    destinationSheet.getRange(row, 4).setValue(person3Mail);
+    destinationSheet.getRange(row, 5).setNumberFormat("@");
+    destinationSheet.getRange(row, 5).setValue(person3Phone);
+    row++;
+
+    destinationSheet.getRange(row, 2).setValue(person4id).setBorder(false, false, true, false, false, false);
+    destinationSheet.getRange(row, 3).setValue(person4Name).setBorder(false, false, true, false, false, false);
+    destinationSheet.getRange(row, 4).setValue(person4Mail).setBorder(false, false, true, false, false, false);
+    destinationSheet.getRange(row, 5).setNumberFormat("@").setBorder(false, false, true, false, false, false);
+    destinationSheet.getRange(row, 5).setValue(person4Phone).setBorder(false, false, true, false, false, false);
+    row++;
+
+    // Thêm dòng trống giữa các nhóm
+    row++;
+    // Tăng số nhóm cho nhóm tiếp theo
+    currentGroup++;
+  }
+}
