@@ -1,0 +1,34 @@
+const filterCondition = ["Thực tập sinh", "Học việc"]
+const sheetName = "Sheet1"
+
+function filterDataByChucVu() {
+  // Mở bảng tính nguồn
+  var trangNguon = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+
+  // Lấy dữ liệu từ cột Chức Vụ (ví dụ: cột F chứa chức vụ)
+  var duLieuNguon = trangNguon.getRange('F:F').getValues();
+
+  // Tạo một mảng để lưu trữ dữ liệu thỏa mãn điều kiện
+  var duLieuTraVe = [];
+
+  // Duyệt qua dữ liệu nguồn và lọc theo nhiều điều kiện
+  filterCondition.forEach(item => {
+    for (var i = 0; i < duLieuNguon.length; i++) {
+        if (duLieuNguon[i][0] === item) {
+        duLieuTraVe.push(trangNguon.getRange(i + 1, 1, 1, trangNguon.getLastColumn()).getValues()[0]);
+      }   
+    }
+
+    // Tạo một bảng tính mới
+    var bieuDoTraVe = SpreadsheetApp.create(item);
+
+    // Lấy trang đầu tiên trong bảng tính mới
+    var trangTraVe = bieuDoTraVe.getSheets()[0];
+
+    // Chép dữ liệu vào trang đích
+    trangTraVe.getRange(1, 1, duLieuTraVe.length, duLieuTraVe[0].length).setValues(duLieuTraVe);
+
+    // reset lại data
+    duLieuTraVe = [];
+  })
+}
