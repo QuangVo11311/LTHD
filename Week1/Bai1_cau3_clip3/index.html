@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Add New Customer
+      </h1>
+      <div class="field">
+        <div class="control">
+          <input id="input-id" class="input is-primary" type="text" placeholder="ID">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input id="input-first-name" class="input is-primary" type="text" placeholder="First Name">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input id="input-last-name" class="input is-primary" type="text" placeholder="Last Name">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input id="input-email" class="input is-primary" type="text" placeholder="Email">
+        </div>
+      </div>
+      <div class="buttons">
+        <button id="btnSaveCustomer" class="button is-primary">Save Customer</button>
+      </div>
+    </div>
+  </section>
+  <script>
+    const btnSave = document.getElementById("btnSaveCustomer");
+    btnSave.addEventListener("click", addData);
+
+    function addData() {
+      const inputId = document.getElementById("input-id").value;
+      const inputFirstName = document.getElementById("input-first-name").value;
+      const inputLastName = document.getElementById("input-last-name").value;
+      const inputEmail = document.getElementById("input-email").value;
+
+      if(inputId.length == 0 || inputFirstName.length == 0 || inputLastName.length == 0 || inputEmail.length == 0) {
+        google.script.run.errorMessage();
+      } else {
+        const data = {
+          id: inputId,
+          firstName: inputFirstName,
+          lastName: inputLastName,
+          email: inputEmail
+        }
+        google.script.run.uploadData(data);
+        inputId = "";
+        inputFirstName = "";
+        inputLastName = "";
+        inputEmail = ""
+      }
+    }
+  </script>
+  </body>
+</html>

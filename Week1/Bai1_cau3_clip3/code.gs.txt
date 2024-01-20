@@ -1,0 +1,30 @@
+function createMenu() {
+  const ui = SpreadsheetApp.getUi();
+  const menu = ui.createMenu("Customer Management System");
+  menu.addItem("Mở Userform", "loadCustomerForm");
+  menu.addToUi();
+}
+
+function loadCustomerForm() {
+  const width = 640;
+  const height = 480;
+  const html = HtmlService.createHtmlOutputFromFile("index");
+  html.setWidth(width).setHeight(height);
+  const ui =SpreadsheetApp.getUi();
+  // ui.showModalDialog(html, "Customer Management System");
+  // ui.showModelessDialog(html, "Customer Management System");
+  ui.showSidebar(html);
+}
+
+function onOpen() {
+  createMenu();
+}
+
+function uploadData(data) {
+  const ws = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("data");
+  ws.appendRow([data.id, data.firstName, data.lastName, data.email]);
+}
+
+function errorMessage() {
+  Browser.msgBox("Bạn cần điền đầy đủ thông tin!!!");
+}
